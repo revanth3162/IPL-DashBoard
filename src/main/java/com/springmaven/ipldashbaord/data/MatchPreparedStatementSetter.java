@@ -12,7 +12,6 @@ public final class MatchPreparedStatementSetter implements ItemPreparedStatement
 
     @Override
     public void setValues(Match match, PreparedStatement ps) throws SQLException {
-        // TODO Auto-generated method stub
         ps.setString(1, Integer.toString(match.getSeason()));
         ps.setString(2, Long.toString(match.getId()));
         ps.setString(3, match.getDescription());
@@ -32,7 +31,4 @@ public final class MatchPreparedStatementSetter implements ItemPreparedStatement
         ps.setString(17, match.getDate());
         ps.setString(18, match.getMatchWinner());
     }
-
-    
-    
 }
