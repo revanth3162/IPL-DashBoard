@@ -1,7 +1,12 @@
+FROM openjdk:11
 
-FROM openjdk:16-alpine3.13
+WORKDIR /app
 
-COPY target/ipl-dashboard-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]
 
