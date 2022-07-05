@@ -27,12 +27,12 @@ pipeline {
 
     stage('Deploy Container To Openshift') {
       steps {
-        sh "oc login https://localhost:8443 --username admin --password admin --insecure-skip-tls-verify=true"
+        sh "oc login http://18.235.231.119/:8443 --username admin --password admin --insecure-skip-tls-verify=true"
         sh "oc project ${projectName} || oc new-project ${projectName}"
         sh "oc delete all --selector app=${projectName} || echo 'Unable to delete all previous openshift resources'"
         sh "oc new-app ${dockerImageTag} -l version=${version}"
-        sh "oc expose dc ${dockerImageTag} --port=8081"
-        sh "oc expose svc/${dockerImageTag}"
+        sh "oc expose dc ${projectName} --port=8081"
+        sh "oc expose svc/${projectName}"
       }
     }
   }
