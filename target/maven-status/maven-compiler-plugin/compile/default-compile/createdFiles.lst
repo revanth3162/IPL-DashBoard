@@ -1,7 +1,12 @@
 com\springmaven\ipldashbaord\data\MatchDataProcessor.class
 com\springmaven\ipldashbaord\data\MatchPreparedStatementSetter.class
 com\springmaven\ipldashbaord\data\MatchInput.class
+com\springmaven\ipldashbaord\data\BatchConfiguration$1.class
+com\springmaven\ipldashbaord\IplDashbaordApplication.class
 com\springmaven\ipldashbaord\repository\MatchRepository.class
+com\springmaven\ipldashbaord\data\JobCompletionNotificationListener.class
+com\springmaven\ipldashbaord\Controllers\TeamController.class
+com\springmaven\ipldashbaord\data\BatchConfiguration.class
 com\springmaven\ipldashbaord\model\Match.class
 com\springmaven\ipldashbaord\repository\TeamRepository.class
 com\springmaven\ipldashbaord\model\Team.class
