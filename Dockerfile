@@ -1,12 +1,5 @@
-FROM openjdk:11
+FROM openjdk:11.0
 
-WORKDIR /app
-
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
-
-COPY src ./src
-
-CMD ["./mvnw", "spring-boot:run"]
-
+COPY /target/ipl-dashbaord-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8081
+ENTRYPOINT ["java","-jar","/app.jar"]

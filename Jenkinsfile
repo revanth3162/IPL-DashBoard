@@ -13,13 +13,19 @@ pipeline {
     stages {
 
         // If you want to build your JAR file as part of the Jenkins build:
-        
-        stage('Package Spring Boot application into a JAR via Maven') {
-            steps {
-                sh 'chmod a+x mvnw'
+        stage("Build"){
+            steps{
                 sh "./mvnw package"
             }
         }
+        
+        stage('Test') {
+            steps {
+                sh 'chmod a+x mvnw'
+                sh "./mvnw clean test"
+            }
+        }
+
         
 
         stage('Build docker images') {
