@@ -1,39 +1,48 @@
-def projectName = 'ipl-dashboard'
+def projectName = 'ipldashboard'
 def version = "0.0.${currentBuild.number}"
-def dockerImageTag = "${projectName}:${version}"
+
+def appName = "${projectName}-app"
+
+
+def dockerAppImageTag = "${projectName}-app:${version}"
+
 
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage('Test') {
-      steps {
-        sh 'chmod a+x mvnw'
-        sh './mvnw clean test'
-      }
-    }
+    stages {
 
-    stage('Build') {
-      steps {
-        sh './mvnw package'
-      }
-    }
+        // If you want to build your JAR file as part of the Jenkins build:
+        
+        stage('Package Spring Boot application into a JAR via Maven') {
+            steps {
+                sh 'chmod a+x mvnw'
+                sh "./mvnw package"
+            }
+        }
+        
 
-    stage('Build Container') {
-      steps {
-        sh "docker build -t ${dockerImageTag} ."
-      }
-    }
+        stage('Build docker images') {
+            steps {
+                sh "docker build -f Dockerfile -t ${dockerAppImageTag} /var/lib/jenkins/workspace/iplboard"
+                sh "readlink -f ipl-dashboard-0.0.1-SNAPSHOT.jar"
+            }
+        }
 
-    stage('Deploy Container To Openshift') {
-      steps {
-        sh "oc login https://18.235.231.119:8443 --username admin --password admin --insecure-skip-tls-verify=true"
-        sh "oc project ${projectName} || oc new-project ${projectName}"
-        sh "oc delete all --selector app=${projectName} || echo 'Unable to delete all previous openshift resources'"
-        sh "oc new-app ${dockerImageTag} -l version=${version}"
-        sh "oc expose dc ${projectName} --port=8081"
-        sh "oc expose svc/${projectName}"
-      }
+        stage('Deploy images To OpenShift') {
+            steps {
+                sh "oc login https://localhost:8443 --username admin --password admin --insecure-skip-tls-verify=true"
+
+                sh "oc project ${projectName} || oc new-project ${projectName}"
+
+                sh "oc delete all -l app=${appName} || echo 'Unable to delete all previous OpenShift app resources'"
+              
+
+                sh "oc new-app ${appName}:${version}  -l version=${version}"
+               
+
+                sh "oc expose svc/${appName}"
+            }
+        }
     }
-  }
 }
