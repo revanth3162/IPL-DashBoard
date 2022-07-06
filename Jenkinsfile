@@ -6,7 +6,6 @@ def appName = "${projectName}-app"
 
 def dockerAppImageTag = "${projectName}-app:${version}"
 
-
 pipeline {
     agent any
 
