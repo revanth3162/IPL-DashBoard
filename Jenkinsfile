@@ -12,7 +12,6 @@ pipeline {
 
     stages {
 
-        // If you want to build your JAR file as part of the Jenkins build:
         
         
         stage('Test') {
@@ -30,8 +29,7 @@ pipeline {
 
         stage('Build docker images') {
             steps {
-                sh "docker build -f Dockerfile -t ${dockerAppImageTag} $WORKSPACE"
-                sh "readlink -f ipl-dashboard-0.0.1-SNAPSHOT.jar"
+                sh "docker build -f Dockerfile -t ${dockerAppImageTag} /var/lib/jenkins/workspace/ipl-dashboard-server-pipeline"
             }
         }
 
