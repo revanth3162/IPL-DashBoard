@@ -30,7 +30,7 @@ pipeline {
 
         stage('Build docker images') {
             steps {
-                sh "docker build -f Dockerfile -t ${dockerAppImageTag} /var/lib/jenkins/workspace/iplboard"
+                sh "docker build -f Dockerfile -t ${dockerAppImageTag} $workspace"
                 sh "readlink -f ipl-dashboard-0.0.1-SNAPSHOT.jar"
             }
         }
