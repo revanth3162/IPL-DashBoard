@@ -13,11 +13,7 @@ pipeline {
     stages {
 
         // If you want to build your JAR file as part of the Jenkins build:
-        stage("Build"){
-            steps{
-                sh "./mvnw package"
-            }
-        }
+        
         
         stage('Test') {
             steps {
@@ -26,7 +22,11 @@ pipeline {
             }
         }
 
-        
+        stage("Build"){
+            steps{
+                sh "./mvnw package"
+            }
+        }
 
         stage('Build docker images') {
             steps {
